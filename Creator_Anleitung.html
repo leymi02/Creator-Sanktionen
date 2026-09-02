@@ -37,7 +37,7 @@ footer{color:#777080;text-align:center;margin-top:50px;font-size:12px}
 
 <style id="siteCustomizerStyles">
 #customizeBtn{
-  position:fixed; right:18px; bottom:18px; z-index:9998;
+  position:fixed; right:18px; bottom:64px; z-index:9998;
   border:1px solid rgba(200,166,255,.35); background:#171b24; color:#f4f5f7;
   border-radius:12px; padding:10px 14px; font:600 13px 'DM Sans',Arial,sans-serif;
   cursor:pointer; box-shadow:0 8px 30px rgba(0,0,0,.28)
@@ -84,6 +84,54 @@ footer{color:#777080;text-align:center;margin-top:50px;font-size:12px}
 body.instructions-editing main [data-editable="true"]{
   outline:1px dashed var(--accent,#c8a6ff);outline-offset:4px;border-radius:4px
 }
+</style>
+
+
+<style id="supabaseAdminStyles">
+.admin-auth-btn{
+  position:fixed; right:18px; bottom:18px; z-index:10020;
+  border:1px solid rgba(200,166,255,.35); background:#171b24; color:#f4f5f7;
+  border-radius:12px; padding:10px 14px; font:600 13px 'DM Sans',Arial,sans-serif;
+  cursor:pointer; box-shadow:0 8px 30px rgba(0,0,0,.28)
+}
+.admin-auth-btn.logged-in{border-color:rgba(123,215,177,.45)}
+#adminLoginModal{
+  position:fixed; inset:0; z-index:10050; display:none; align-items:center; justify-content:center;
+  padding:18px; background:rgba(4,6,10,.76); backdrop-filter:blur(6px)
+}
+#adminLoginModal.open{display:flex}
+.admin-login-box{
+  width:min(430px,96vw); background:#11151d; color:#f4f5f7;
+  border:1px solid #2a3240; border-radius:18px; padding:22px;
+  box-shadow:0 24px 80px rgba(0,0,0,.5); font-family:'DM Sans',Arial,sans-serif
+}
+.admin-login-box h2{margin:0 0 8px;font-size:21px}
+.admin-login-box p{margin:0 0 16px;color:#9ca4b3;font-size:13px;line-height:1.5}
+.admin-login-box input{
+  width:100%;margin:6px 0 10px;padding:11px 12px;border-radius:10px;border:1px solid #303847;
+  background:#0c1016;color:#fff;font:inherit
+}
+.admin-login-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+.admin-login-actions button{
+  border:1px solid #303847;background:#191e28;color:#fff;border-radius:10px;padding:9px 12px;cursor:pointer
+}
+.admin-login-actions .primary{background:linear-gradient(135deg,#8e6bd8,#6f4fc2);border-color:#8e6bd8}
+.admin-error{min-height:18px;color:#ff9aaa;font-size:12px;margin-top:8px}
+.admin-only{display:none!important}
+body.is-admin .admin-only{display:inline-flex!important}
+body.is-admin #customizeBtn{display:block}
+body:not(.is-admin) #customizeBtn{display:none}
+body:not(.is-admin) #instructionEditBar{display:none!important}
+body:not(.is-admin) #editBtn,
+body:not(.is-admin) .file-btn,
+body:not(.is-admin) .actions button.primary,
+body:not(.is-admin) #customizeBtn{display:none!important}
+.cloud-status{
+  position:fixed;left:18px;bottom:18px;z-index:10010;
+  padding:8px 11px;border-radius:10px;background:#11151d;border:1px solid #29303c;
+  color:#9ca4b3;font:600 11px 'DM Sans',Arial,sans-serif;opacity:.95
+}
+.cloud-status.ok{color:#7bd7b1}.cloud-status.err{color:#ff9aaa}
 </style>
 
 </head>
@@ -149,26 +197,254 @@ function filterCards(){
 <script id="instructionsEditScript">
 let instructionEditing=false;
 function editableNodes(){return [...document.querySelectorAll("main h1, main h2, main h3, main p, main li")].filter(x=>!x.closest("#instructionEditBar"))}
-function initInstructionEdits(){
-  editableNodes().forEach((el,i)=>{
-    el.dataset.editable="true"; el.dataset.editKey="instruction_"+i;
-    const saved=localStorage.getItem(el.dataset.editKey); if(saved!==null)el.innerHTML=saved;
-  });
+async function initInstructionEdits(){
+  editableNodes().forEach((el,i)=>{el.dataset.editable="true";el.dataset.editKey="instruction_"+i;});
+  setCloudStatus("Anleitungen werden geladen …");
+  try{
+    const row=await getContent("instructions");
+    const items=row?.content_data?.items;
+    if(Array.isArray(items)){
+      editableNodes().forEach((el,i)=>{if(typeof items[i]==="string")el.innerHTML=items[i]});
+      setCloudStatus("Anleitungen aus Cloud geladen","ok");
+    }else{
+      setCloudStatus("Ausgangstexte geladen","ok");
+    }
+  }catch(err){console.error(err);setCloudStatus("Cloud nicht erreichbar · Ausgangstexte","err")}
 }
 function toggleInstructionEdit(){
+  if(!currentAdminUser){openAdminLogin();return;}
   instructionEditing=!instructionEditing;
   document.body.classList.toggle("instructions-editing",instructionEditing);
   editableNodes().forEach(el=>el.contentEditable=instructionEditing?"true":"false");
 }
-function saveInstructionEdits(){
-  editableNodes().forEach(el=>localStorage.setItem(el.dataset.editKey,el.innerHTML));
-  alert("Texte wurden in diesem Browser gespeichert.");
+async function saveInstructionEdits(){
+  if(!currentAdminUser){openAdminLogin();return;}
+  try{
+    await saveContent("instructions",{items:editableNodes().map(el=>el.innerHTML)});
+    setCloudStatus("Anleitungen für alle gespeichert ✓","ok");
+    alert("Anleitungen wurden für alle Besucher gespeichert.");
+  }catch(err){console.error(err);setCloudStatus("Speichern fehlgeschlagen","err");alert("Speichern fehlgeschlagen.");}
 }
-function resetInstructionEdits(){
-  editableNodes().forEach(el=>localStorage.removeItem(el.dataset.editKey));
-  location.reload();
+async function resetInstructionEdits(){
+  if(!currentAdminUser){openAdminLogin();return;}
+  if(!confirm("Cloud-Inhalte auf die ursprünglichen HTML-Texte zurücksetzen?"))return;
+  try{
+    await saveContent("instructions",{items:[]});
+    location.reload();
+  }catch(err){alert("Zurücksetzen fehlgeschlagen.");}
 }
-document.addEventListener("DOMContentLoaded",initInstructionEdits);
+function onAdminStateChanged(isAdmin){
+  if(!isAdmin && instructionEditing){
+    instructionEditing=false;
+    document.body.classList.remove("instructions-editing");
+    editableNodes().forEach(el=>el.contentEditable="false");
+  }
+}
+document.addEventListener("DOMContentLoaded",()=>setTimeout(initInstructionEdits,220));
+</script>
+
+
+
+<button id="customizeBtn" type="button">✦ Seite anpassen</button>
+<div id="customizePanel">
+  <div class="customizer-box">
+    <div class="customizer-head">
+      <h2>Seite individuell anpassen</h2>
+      <button class="customizer-close" type="button" onclick="closeCustomizer()">✕</button>
+    </div>
+    <div class="customizer-grid">
+      <label>Seitentitel<input id="cfgTitle" type="text"></label>
+      <label>Untertitel<input id="cfgSubtitle" type="text"></label>
+      <label>Akzentfarbe<input id="cfgAccent" type="color"></label>
+      <label>Zweite Akzentfarbe<input id="cfgAccent2" type="color"></label>
+      <label>Hintergrundfarbe<input id="cfgBg" type="color"></label>
+      <label>Karten-/Flächenfarbe<input id="cfgSurface" type="color"></label>
+    </div>
+    <div class="customizer-actions">
+      <button class="primary" type="button" onclick="saveCustomizer()">Für alle speichern</button>
+      <button type="button" onclick="resetCustomizer()">Zurücksetzen</button>
+      <button type="button" onclick="exportCustomizer()">Design exportieren</button>
+      <label>Design importieren<input type="file" accept=".json" hidden onchange="importCustomizer(event)"></label>
+    </div>
+    <div class="customizer-note">
+      Design-Änderungen werden in Supabase gespeichert und gelten danach für alle Besucher.
+    </div>
+  </div>
+</div>
+
+<button id="adminAuthBtn" class="admin-auth-btn" type="button">🔐 Admin Login</button>
+<div id="cloudStatus" class="cloud-status">Cloud wird verbunden …</div>
+<div id="adminLoginModal">
+  <div class="admin-login-box">
+    <h2>Admin Login</h2>
+    <p>Nur berechtigte Admin-Konten können Inhalte und Design für alle Besucher verändern.</p>
+    <input id="adminEmail" type="email" placeholder="E-Mail-Adresse" autocomplete="username">
+    <input id="adminPassword" type="password" placeholder="Passwort" autocomplete="current-password">
+    <div id="adminError" class="admin-error"></div>
+    <div class="admin-login-actions">
+      <button type="button" onclick="closeAdminLogin()">Abbrechen</button>
+      <button class="primary" type="button" onclick="adminLogin()">Einloggen</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script id="supabaseAdminCore">
+const SUPABASE_URL="https://sivdyarxpeuvvpdmzycw.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_dS1-tlpJEbpX8jW0vFHGkQ_Dfu_plgQ";
+const CONTENT_TABLE="CreatorVerwaltung";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let currentAdminUser=null;
+
+function setCloudStatus(text,type=""){
+  const el=document.getElementById("cloudStatus");
+  if(!el)return;
+  el.textContent=text; el.className="cloud-status"+(type?" "+type:"");
+}
+function openAdminLogin(){
+  if(currentAdminUser){ adminLogout(); return; }
+  document.getElementById("adminLoginModal").classList.add("open");
+}
+function closeAdminLogin(){
+  document.getElementById("adminLoginModal").classList.remove("open");
+  const e=document.getElementById("adminError"); if(e)e.textContent="";
+}
+async function adminLogin(){
+  const email=document.getElementById("adminEmail").value.trim();
+  const password=document.getElementById("adminPassword").value;
+  const err=document.getElementById("adminError"); err.textContent="";
+  if(!email||!password){err.textContent="Bitte E-Mail und Passwort eingeben.";return;}
+  const {data,error}=await sb.auth.signInWithPassword({email,password});
+  if(error){err.textContent="Login fehlgeschlagen. E-Mail oder Passwort prüfen.";return;}
+  currentAdminUser=data.user; applyAdminState(); closeAdminLogin();
+}
+async function adminLogout(){
+  await sb.auth.signOut(); currentAdminUser=null; applyAdminState();
+}
+function applyAdminState(){
+  document.body.classList.toggle("is-admin",!!currentAdminUser);
+  const b=document.getElementById("adminAuthBtn");
+  if(b){
+    b.textContent=currentAdminUser?"🔓 Admin · Logout":"🔐 Admin Login";
+    b.classList.toggle("logged-in",!!currentAdminUser);
+  }
+  if(typeof onAdminStateChanged==="function") onAdminStateChanged(!!currentAdminUser);
+}
+async function getContent(key){
+  const {data,error}=await sb.from(CONTENT_TABLE)
+    .select("id,content_key,content_data,updated_at")
+    .eq("content_key",key)
+    .order("id",{ascending:true})
+    .limit(1);
+  if(error) throw error;
+  return data&&data.length?data[0]:null;
+}
+async function saveContent(key,payload){
+  if(!currentAdminUser) throw new Error("Nicht als Admin eingeloggt");
+  const existing=await getContent(key);
+  const row={content_key:key,content_data:payload,updated_at:new Date().toISOString()};
+  let result;
+  if(existing){
+    result=await sb.from(CONTENT_TABLE).update(row).eq("id",existing.id).select().single();
+  }else{
+    result=await sb.from(CONTENT_TABLE).insert(row).select().single();
+  }
+  if(result.error) throw result.error;
+  return result.data;
+}
+async function initAdminCore(){
+  const {data}=await sb.auth.getSession();
+  currentAdminUser=data.session?.user||null;
+  applyAdminState();
+  document.getElementById("adminAuthBtn")?.addEventListener("click",openAdminLogin);
+  document.getElementById("adminLoginModal")?.addEventListener("click",e=>{if(e.target.id==="adminLoginModal")closeAdminLogin()});
+  sb.auth.onAuthStateChange((_event,session)=>{currentAdminUser=session?.user||null;applyAdminState();});
+}
+document.addEventListener("DOMContentLoaded",initAdminCore);
+</script>
+
+
+<script id="siteCustomizerScript">
+const DEFAULT_SITE_CFG={
+  title:"Creator Management",
+  subtitle:"Interne Verwaltung · Richtlinien · Sanktionen",
+  accent:"#c8a6ff",accent2:"#8e6bd8",bg:"#0b0d12",surface:"#151922"
+};
+let siteCfg={...DEFAULT_SITE_CFG};
+
+function applySiteCfg(){
+  const c=siteCfg;
+  document.documentElement.style.setProperty("--accent",c.accent);
+  document.documentElement.style.setProperty("--accent-2",c.accent2);
+  document.documentElement.style.setProperty("--accent2",c.accent2);
+  document.documentElement.style.setProperty("--bg",c.bg);
+  document.documentElement.style.setProperty("--surface",c.surface);
+  document.querySelectorAll("[data-site-title]").forEach(el=>el.textContent=c.title);
+  document.querySelectorAll("[data-site-subtitle]").forEach(el=>el.textContent=c.subtitle);
+}
+async function loadSiteCfg(){
+  try{
+    const row=await getContent("site_design");
+    if(row?.content_data)siteCfg={...DEFAULT_SITE_CFG,...row.content_data};
+    applySiteCfg();
+  }catch(err){console.error(err);applySiteCfg();}
+}
+function openCustomizer(){
+  if(!currentAdminUser){openAdminLogin();return;}
+  cfgTitle.value=siteCfg.title;cfgSubtitle.value=siteCfg.subtitle;
+  cfgAccent.value=siteCfg.accent;cfgAccent2.value=siteCfg.accent2;
+  cfgBg.value=siteCfg.bg;cfgSurface.value=siteCfg.surface;
+  customizePanel.classList.add("open");
+}
+function closeCustomizer(){customizePanel.classList.remove("open")}
+async function saveCustomizer(){
+  if(!currentAdminUser){openAdminLogin();return;}
+  siteCfg={
+    title:cfgTitle.value.trim()||DEFAULT_SITE_CFG.title,
+    subtitle:cfgSubtitle.value.trim()||DEFAULT_SITE_CFG.subtitle,
+    accent:cfgAccent.value,accent2:cfgAccent2.value,
+    bg:cfgBg.value,surface:cfgSurface.value
+  };
+  try{
+    await saveContent("site_design",siteCfg);
+    applySiteCfg();closeCustomizer();
+    setCloudStatus("Design für alle gespeichert ✓","ok");
+  }catch(err){console.error(err);alert("Design konnte nicht gespeichert werden.");}
+}
+async function resetCustomizer(){
+  if(!currentAdminUser){openAdminLogin();return;}
+  siteCfg={...DEFAULT_SITE_CFG};
+  try{
+    await saveContent("site_design",siteCfg);
+    applySiteCfg();closeCustomizer();
+    setCloudStatus("Design zurückgesetzt ✓","ok");
+  }catch(err){alert("Zurücksetzen fehlgeschlagen.");}
+}
+function exportCustomizer(){
+  const blob=new Blob([JSON.stringify(siteCfg,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="creator-design.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),300);
+}
+function importCustomizer(e){
+  if(!currentAdminUser){openAdminLogin();e.target.value="";return;}
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=async()=>{
+    try{
+      siteCfg={...DEFAULT_SITE_CFG,...JSON.parse(r.result)};
+      await saveContent("site_design",siteCfg);
+      applySiteCfg();closeCustomizer();
+      setCloudStatus("Design importiert ✓","ok");
+    }catch(err){alert("Ungültige Design-Datei.");}
+  };
+  r.readAsText(f);
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  document.getElementById("customizeBtn")?.addEventListener("click",openCustomizer);
+  document.getElementById("customizePanel")?.addEventListener("click",e=>{if(e.target.id==="customizePanel")closeCustomizer()});
+  setTimeout(loadSiteCfg,200);
+});
 </script>
 
 </body>

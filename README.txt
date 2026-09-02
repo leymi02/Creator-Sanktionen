@@ -1,18 +1,33 @@
-CREATOR SITE – INDIVIDUELL ANPASSBAR
+CREATOR MANAGEMENT – SUPABASE VERSION
 
-Dateien:
+Diese Version ist mit Supabase verbunden.
+
+Supabase:
+- URL: https://sivdyarxpeuvvpdmzycw.supabase.co
+- Tabelle: CreatorVerwaltung
+- Verwendet wird ausschließlich der Publishable Key.
+- KEIN service_role/Secret Key ist in der Website enthalten.
+
+So funktioniert es:
+1. Besucher öffnen die Seite normal und können Inhalte lesen.
+2. Unten rechts gibt es "Admin Login".
+3. Mit dem in Supabase Authentication angelegten Admin-Konto einloggen.
+4. Danach werden Bearbeiten-/Design-Funktionen sichtbar.
+5. Änderungen werden in der Tabelle "CreatorVerwaltung" gespeichert und sind für alle Besucher sichtbar.
+
+Gespeicherte content_key-Werte:
+- sanctions     -> Sanktionskatalog
+- instructions  -> Creator-Anleitungen
+- site_design   -> gemeinsames Seitendesign
+
+WICHTIG:
+Die Tabelle ist aktuell leer. Beim ersten Aufruf werden beim Sanktionskatalog die mitgelieferten JSON-Daten angezeigt.
+Sobald du als Admin eine Änderung speicherst, wird automatisch der entsprechende Datensatz in Supabase erstellt.
+
+Dateien für GitHub Pages:
 - index.html
 - Sanktionskatalog.html
 - Creator_Anleitung.html
 - streamer-sanktionen.json
 
-Neu:
-- Auf jeder Seite unten rechts: „✦ Seite anpassen“
-- Seitentitel, Untertitel, Akzentfarben, Hintergrund und Flächenfarbe veränderbar
-- Design kann exportiert/importiert werden
-- Creator_Anleitung.html: Texte können direkt im Browser bearbeitet und gespeichert werden
-- Sanktionskatalog.html: Regeln bleiben über die vorhandenen Bearbeiten-/Import-/Export-Funktionen editierbar
-
-Wichtig:
-Die Änderungen werden per localStorage im jeweiligen Browser gespeichert.
-Wenn alle Besucher dieselben Änderungen sehen sollen, müssen die entsprechenden HTML-/JSON-Dateien in GitHub aktualisiert werden.
+Alle vier Dateien direkt in den Hauptordner deines GitHub-Repositories hochladen.
