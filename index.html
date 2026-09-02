@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Management</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+:root{--bg:#0b0d12;--surface:#151922;--surface2:#1b202b;--border:#29303c;--text:#f4f5f7;--muted:#9ca4b3;--accent:#c8a6ff;--gold:#e3bd70}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--text);font-family:'DM Sans',Arial,sans-serif;background:radial-gradient(circle at 75% -10%,rgba(200,166,255,.14),transparent 30rem),radial-gradient(circle at 5% 85%,rgba(142,107,216,.08),transparent 28rem),var(--bg)}
+.wrap{max-width:1100px;margin:auto;padding:34px 26px 60px}
+.top{display:flex;align-items:center;gap:15px;padding-bottom:26px;border-bottom:1px solid #202631}
+.mark{width:48px;height:48px;display:grid;place-items:center;border-radius:14px;border:1px solid rgba(200,166,255,.30);background:linear-gradient(145deg,rgba(200,166,255,.18),rgba(200,166,255,.04));color:var(--accent);font-size:22px}
+.brand{font-weight:700;font-size:18px}.sub{color:var(--muted);font-size:12px;margin-top:2px}
+.hero{padding:80px 0 38px;text-align:center}.kicker{color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:52px;line-height:1.08;margin:10px 0 14px;letter-spacing:-1.5px}
+.hero p{max-width:650px;margin:0 auto;color:var(--muted);font-size:16px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+.card{display:block;text-decoration:none;color:var(--text);padding:28px;background:linear-gradient(145deg,rgba(27,32,43,.96),rgba(21,25,34,.96));border:1px solid var(--border);border-radius:18px;transition:.2s ease;min-height:220px}
+.card:hover{transform:translateY(-4px);border-color:rgba(200,166,255,.48);background:var(--surface2)}
+.icon{width:48px;height:48px;display:grid;place-items:center;border-radius:13px;background:rgba(200,166,255,.10);border:1px solid rgba(200,166,255,.16);font-size:22px;margin-bottom:24px}
+.card h2{font-size:22px;margin:0 0 8px}.card p{color:var(--muted);margin:0;line-height:1.6}.open{margin-top:24px;color:var(--accent);font-weight:700;font-size:13px}
+footer{text-align:center;color:#727b8c;font-size:11px;margin-top:55px;padding-top:18px;border-top:1px solid #202631}
+@media(max-width:720px){.wrap{padding:24px 16px 40px}.hero{padding:55px 0 25px}h1{font-size:38px}.cards{grid-template-columns:1fr}.card{min-height:190px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="mark">✦</div><div><div class="brand">Creator Management</div><div class="sub">Interne Verwaltung · Richtlinien · Sanktionen</div></div></header>
+<main class="hero">
+<div class="kicker">Creator Verwaltung</div>
+<h1>Was möchtest du öffnen?</h1>
+<p>Wähle den gewünschten Bereich. Der Sanktionskatalog lädt seine aktuellen Daten direkt aus der JSON-Datei.</p>
+<div class="cards">
+<a class="card" href="Sanktionskatalog.html"><div class="icon">⚖️</div><h2>Sanktionskatalog</h2><p>Regelverstöße, Creator-Warn-System und Sanktionen aus der JSON-Datei.</p><div class="open">Sanktionskatalog öffnen →</div></a>
+<a class="card" href="Creator_Anleitung.html"><div class="icon">📚</div><h2>Creator Anleitungen</h2><p>Ränge, Bewerbungstickets, TikTok-Streamer, SCP, Regelverstöße und interne Abläufe.</p><div class="open">Anleitungen öffnen →</div></a>
+</div>
+</main>
+<footer>Creator Management · Interner Bereich</footer>
+</div>
+</body>
+</html>

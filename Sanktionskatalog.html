@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Streamer Sanktionen</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+:root{
+  --bg:#0b0d12;
+  --bg-soft:#11141b;
+  --surface:#151922;
+  --surface-2:#1b202b;
+  --surface-3:#222835;
+  --border:#29303c;
+  --border-soft:#202631;
+  --text:#f4f5f7;
+  --muted:#9ca4b3;
+  --muted-2:#727b8c;
+  --accent:#c8a6ff;
+  --accent-2:#8e6bd8;
+  --accent-soft:rgba(200,166,255,.12);
+  --gold:#e3bd70;
+  --pink:#ee91c9;
+  --green:#7bd7b1;
+  --red:#ff7d8d;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 75% -10%,rgba(200,166,255,.10),transparent 28rem),
+    radial-gradient(circle at 0% 40%,rgba(116,145,190,.07),transparent 25rem),
+    var(--bg);
+  font-family:'DM Sans',Arial,sans-serif;
+  font-size:15px;
+  line-height:1.55;
+  letter-spacing:.05px;
+}
+button,input,select{font:inherit}
+button,.file-btn{cursor:pointer}
+
+.app{
+  max-width:1500px;
+  margin:auto;
+  padding:30px 32px 50px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:25px;
+  padding:6px 0 26px;
+  border-bottom:1px solid var(--border-soft);
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+.brand-mark{
+  width:46px;height:46px;
+  display:grid;place-items:center;
+  border:1px solid rgba(200,166,255,.28);
+  border-radius:14px;
+  background:linear-gradient(145deg,rgba(200,166,255,.18),rgba(200,166,255,.04));
+  color:var(--accent);
+  font-size:21px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+.brand-title{
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:-.2px;
+}
+.brand-sub{font-size:12px;color:var(--muted);margin-top:1px}
+
+.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.page-link{
+  display:inline-flex;
+  align-items:center;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  padding:9px 13px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:600;
+  text-decoration:none;
+  transition:.18s ease;
+}
+.page-link:hover{
+  background:var(--surface-2);
+  border-color:#3a4351;
+  transform:translateY(-1px);
+}
+button,.file-btn{
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  padding:9px 13px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:600;
+  transition:.18s ease;
+}
+button:hover,.file-btn:hover{
+  background:var(--surface-2);
+  border-color:#3a4351;
+  transform:translateY(-1px);
+}
+.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#17121e;
+}
+.primary:hover{background:#d5bcff;border-color:#d5bcff}
+.status{
+  color:var(--muted);
+  border:1px solid var(--border);
+  background:transparent;
+  padding:7px 10px;
+  border-radius:9px;
+  font-size:11px;
+  font-weight:700;
+}
+.status.on{
+  color:var(--accent);
+  border-color:rgba(200,166,255,.35);
+  background:var(--accent-soft);
+}
+
+.intro{
+  padding:34px 0 26px;
+  max-width:850px;
+}
+.intro-kicker{
+  color:var(--accent);
+  text-transform:uppercase;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+.intro h1{
+  margin:0;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:40px;
+  line-height:1.15;
+  letter-spacing:-1px;
+  font-weight:700;
+}
+.intro p{
+  margin:9px 0 0;
+  color:var(--muted);
+  font-size:15px;
+  max-width:720px;
+}
+
+.tools{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:30px;
+}
+.search-wrap{position:relative;flex:1;max-width:560px}
+.search-wrap span{
+  position:absolute;left:13px;top:50%;
+  transform:translateY(-50%);
+  color:var(--muted-2);
+  pointer-events:none;
+}
+input,select{
+  width:100%;
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:11px 12px;
+  outline:none;
+}
+.search-wrap input{padding-left:38px}
+input:focus,select:focus{
+  border-color:rgba(200,166,255,.55);
+  box-shadow:0 0 0 3px rgba(200,166,255,.07);
+}
+.filter{max-width:220px}
+
+.section{margin:0 0 34px}
+.section-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:13px;
+}
+.section-head:after{
+  content:"";
+  height:1px;
+  background:var(--border-soft);
+  flex:1;
+  margin-left:5px;
+}
+.section-icon{
+  width:27px;height:27px;
+  display:grid;place-items:center;
+  border-radius:8px;
+  color:var(--accent);
+  background:var(--accent-soft);
+  font-size:12px;
+}
+.section-head h2{
+  margin:0;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.2px;
+}
+.count{
+  color:var(--muted);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:3px 8px;
+  font-size:10px;
+  font-weight:700;
+}
+
+.creator-box{
+  background:linear-gradient(135deg,rgba(24,28,38,.95),rgba(17,20,27,.95));
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:15px;
+}
+.creator-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.creator-item{
+  min-height:105px;
+  padding:17px;
+  background:rgba(255,255,255,.018);
+  border:1px solid var(--border-soft);
+  border-radius:13px;
+  position:relative;
+}
+.creator-item:after{
+  content:"";
+  position:absolute;
+  top:15px;right:15px;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 13px rgba(227,189,112,.4);
+}
+.level{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.punishment{
+  margin-top:7px;
+  font-size:18px;
+  font-weight:700;
+  color:var(--gold);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.card{
+  position:relative;
+  min-height:143px;
+  padding:18px 18px 17px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  transition:.18s ease;
+}
+.card:hover{
+  background:var(--surface-2);
+  border-color:#343c49;
+  transform:translateY(-2px);
+}
+.card:before{
+  content:"";
+  position:absolute;
+  left:-1px;top:18px;bottom:18px;
+  width:2px;border-radius:2px;
+  background:var(--accent-2);
+  opacity:.7;
+}
+.number{
+  position:absolute;
+  right:13px;top:13px;
+  min-width:24px;text-align:center;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:700;
+  padding:3px 6px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:var(--bg-soft);
+}
+.title{
+  padding-right:38px;
+  margin:1px 0 15px;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.42;
+}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:25px;
+  padding:4px 8px;
+  border-radius:6px;
+  background:rgba(227,189,112,.09);
+  border:1px solid rgba(227,189,112,.12);
+  color:var(--gold);
+  font-size:10px;
+  font-weight:700;
+  line-height:1.25;
+}
+.badge.pink{
+  color:var(--pink);
+  background:rgba(238,145,201,.08);
+  border-color:rgba(238,145,201,.12);
+}
+.badge.green{
+  color:var(--green);
+  background:rgba(123,215,177,.08);
+  border-color:rgba(123,215,177,.12);
+}
+.note{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:10px;
+  line-height:1.45;
+}
+
+.edit-area{display:none}
+.editing .display-area{display:none}
+.editing .edit-area{display:block}
+.editing .number{color:#17121e;background:var(--accent);border-color:var(--accent)}
+.edit-field{margin:0 0 9px}
+.edit-field label{
+  display:block;
+  margin-bottom:4px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.9px;
+}
+.edit-field input{padding:8px 9px;font-size:12px}
+.delete{font-size:11px;color:var(--red);padding:7px 9px}
+
+.empty{
+  padding:45px 20px;
+  text-align:center;
+  color:var(--muted);
+  border:1px dashed var(--border);
+  border-radius:14px;
+}
+
+footer{
+  margin-top:42px;
+  padding-top:18px;
+  border-top:1px solid var(--border-soft);
+  color:var(--muted-2);
+  text-align:center;
+  font-size:11px;
+}
+
+.modal{
+  position:fixed;inset:0;z-index:20;
+  display:none;align-items:center;justify-content:center;
+  padding:20px;background:rgba(5,6,9,.78);
+  backdrop-filter:blur(8px);
+}
+.modal.show{display:flex}
+.modal-box{
+  width:min(620px,100%);
+  padding:24px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:#151922;
+  box-shadow:0 30px 90px rgba(0,0,0,.55);
+}
+.modal-box h3{margin:0 0 18px;font-size:18px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{margin:10px 0}
+.field label{
+  display:block;margin-bottom:5px;
+  color:var(--muted);font-size:10px;
+  text-transform:uppercase;letter-spacing:.7px;font-weight:700;
+}
+
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+ .app{padding:20px 15px 35px}
+ .topbar{align-items:flex-start;flex-direction:column}
+ .intro h1{font-size:32px}
+ .tools{align-items:stretch;flex-direction:column}
+ .search-wrap,.filter{max-width:none}
+ .grid,.creator-grid,.row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+ <div class="brand">
+  <div class="brand-mark">✦</div>
+  <div><div class="brand-title">Creator Management</div><div class="brand-sub">Streamer · Sanktionen · Regelwerk</div></div>
+ </div>
+ <div class="actions">
+  <a class="page-link" href="index.html">⌂ Startseite</a>
+  <a class="page-link" href="Creator_Anleitung.html">📚 Anleitungen</a>
+  <span id="editState" class="status">Nur Ansicht</span>
+  <button id="editBtn" onclick="toggleEdit()">✎ Bearbeiten</button>
+  <button class="primary" onclick="openAdd()">＋ Regel hinzufügen</button>
+  <button onclick="exportData()">⇩ Exportieren</button>
+  <label class="file-btn">⇧ Importieren <input type="file" id="importFile" accept=".json" hidden onchange="importData(event)"></label>
+ </div>
+</header>
+
+<section class="intro">
+ <div class="intro-kicker">Interne Richtlinien</div>
+ <h1>Streamer-Sanktionen</h1>
+ <p>Eine klare und übersichtliche Übersicht aller Regelbrüche und der dazugehörigen Maßnahmen.</p>
+</section>
+
+<div class="tools">
+ <div class="search-wrap"><span>⌕</span><input id="search" class="search" placeholder="Regelbruch suchen..." oninput="render()"></div>
+ <select id="filter" class="filter" onchange="render()">
+  <option value="Alle">Alle Kategorien</option>
+  <option value="IC-Verstöße">IC-Verstöße</option>
+  <option value="OOC-Verstöße">OOC-Verstöße</option>
+  <option value="PET-Verstöße">PET-Verstöße</option>
+  <option value="Sonstiges">Sonstiges</option>
+ </select>
+</div>
+
+<section class="section">
+ <div class="section-head"><span class="section-icon">◆</span><h2>Creator-Warn-System</h2><span class="count">3 Stufen</span></div>
+ <div class="creator-box"><div class="creator-grid" id="creatorGrid"></div></div>
+</section>
+
+<div id="content"></div>
+<footer>Änderungen werden automatisch in diesem Browser gespeichert · Für andere Geräte das Regelwerk exportieren.</footer>
+</div>
+
+<div class="modal" id="modal">
+ <div class="modal-box">
+  <h3>Neue Regel hinzufügen</h3>
+  <div class="field"><label>Kategorie</label><select id="mCat"><option>IC-Verstöße</option><option>OOC-Verstöße</option><option>PET-Verstöße</option><option>Sonstiges</option></select></div>
+  <div class="field"><label>Regelbruch</label><input id="mTitle"></div>
+  <div class="row">
+   <div class="field"><label>Sanktion</label><input id="mPunish"></div>
+   <div class="field"><label>Badge / Zusatz</label><input id="mNote"></div>
+  </div>
+  <div class="actions" style="justify-content:flex-end;margin-top:16px"><button onclick="closeModal()">Abbrechen</button><button class="primary" onclick="saveModal()">Speichern</button></div>
+ </div>
+</div>
+
+<script>
+const defaults={
+creator:[
+ {level:"1. Creator Warn",punishment:"2 Wochen"},
+ {level:"2. Creator Warn",punishment:"4 Wochen"},
+ {level:"3. Creator Warn",punishment:"Entzug Lizenz"}
+],
+rules:[
+["IC-Verstöße","VDM / RDM","Warn – 6 Tage",""],
+["IC-Verstöße","Trolling","1 Tag – 1 Woche",""],
+["IC-Verstöße","Fail-RP","Warn – 1 Woche",""],
+["IC-Verstöße","Power RP","Warn – 5 Tage",""],
+["IC-Verstöße","Non-RP","Warn – 4 Tage (oder Waffensperre)",""],
+["IC-Verstöße","Rassismus IC","High Team Weiterleitung","WEITERLEITUNG → HIGH TEAM"],
+["IC-Verstöße","Sexismus IC","High Team Weiterleitung","WEITERLEITUNG → HIGH TEAM"],
+["IC-Verstöße","Anmachsprüche","Erlaubt!!!","ERLAUBT"],
+["IC-Verstöße","Extrem permanente wiederholte Anmachsprüche","High Team Weiterleitung","WEITERLEITUNG → HIGH TEAM"],
+["IC-Verstöße","Mit Support drohen","Warn – 3 Tage Waffensperre","SONDERSTRAFE"],
+["IC-Verstöße","Während einer aktiven Situation den Support aufrufen","Warn","NUR WARN"],
+["IC-Verstöße","RP-Flucht","Warn – 3 Tage",""],
+["IC-Verstöße","Combat Logging","Warn – Waffensperre","SONDERSTRAFE"],
+["IC-Verstöße","New Life Regel nicht beachten","Warn – 1 Woche",""],
+["IC-Verstöße","Carry/TH im Auto beim Fahrer","Warn","NUR WARN"],
+["IC-Verstöße","Voicechanger Abuse","Warn – 3 Tage",""],
+["IC-Verstöße","Korruption","3 Tage – Privat Lager Clear",""],
+["IC-Verstöße","Drittpartei","Warn – 1 Woche",""],
+["IC-Verstöße","Gamboverhalten / Baiting","Warn – High Team","SONDERSTRAFE"],
+["IC-Verstöße","Gamboutfit / RP ungetreues Outfit","Warn – Waffensperre","SONDERSTRAFE"],
+["IC-Verstöße","Leichenschändung","Warn – 3 Tage",""],
+["IC-Verstöße","Trashtalk","Warn – Waffensperre","SONDERSTRAFE"],
+["IC-Verstöße","Safezone missachten","Warn – 3 Tage",""],
+["IC-Verstöße","Fahrzeug Regeln missachtet","Warn – 2 Tage",""],
+["IC-Verstöße","Scams (Trading, Coins, Güter)","Weiterleitung → Management","WEITERLEITUNG → MANAGEMENT"],
+["IC-Verstöße","Echtgeldhandel","Weiterleitung → Management","WEITERLEITUNG → MANAGEMENT"],
+["IC-Verstöße","Fremdwerbung oder Abwerbung","Weiterleitung → Manager","WEITERLEITUNG → MANAGEMENT"],
+["IC-Verstöße","Bug Abusing / Duping","Warn – Clear der Privatlager","SONDERSTRAFE"],
+["IC-Verstöße","Blacklisted Wörter","Warn – 1 Woche",""],
+["IC-Verstöße","Eigenbereicherung","Warn – 7 Tage",""],
+["OOC-Verstöße","OOC Talk","Warn","NUR WARN"],
+["OOC-Verstöße","OOC Beleidigung","Warn – 2 Wochen",""],
+["OOC-Verstöße","Rassismus OOC","High Team Weiterleitung","WEITERLEITUNG → HIGH TEAM"],
+["OOC-Verstöße","Sexismus OOC","High Team Weiterleitung","WEITERLEITUNG → HIGH TEAM"],
+["OOC-Verstöße","Diskriminierung von Behinderungen o.ä.","High Team Weiterleitung","WEITERLEITUNG → HIGH TEAM"],
+["OOC-Verstöße","Vermischung von IC und OOC Sachen","Warn – 1 Woche",""],
+["OOC-Verstöße","Metagaming","Warn – 5 Tage",""],
+["OOC-Verstöße","Lügen im Support","1 Tag",""],
+["OOC-Verstöße","Respektloses Verhalten bei Supporten","1 Tag – 4 Tage",""],
+["OOC-Verstöße","Support Flucht","2 Tage – 2 Wochen",""],
+["OOC-Verstöße","Falscher FiveM Name","Warn – Kick","SONDERSTRAFE"],
+["OOC-Verstöße","Missachtung einer Anordnung von Teamlern","Warn – 3 Tage",""],
+["PET-Verstöße","Unrealistisches RP (Fahren, Carry, ... als Tier)","Warn – 1 Woche",""],
+["PET-Verstöße","Missbrauch des /rp Befehls","Warn – 2 Tage",""],
+["PET-Verstöße","RDM als Tier","Warn – 6 Tage",""],
+["Sonstiges","1 Monat Inaktivität ohne Abmelden","Entzug Lizenz",""]
+]};
+
+let data=JSON.parse(localStorage.getItem("streamerSanctions")||"null");
+let editMode=false;
+
+async function loadData(){
+  if(data){ render(); return; }
+  try{
+    const res=await fetch("streamer-sanktionen.json",{cache:"no-store"});
+    if(!res.ok) throw new Error("JSON konnte nicht geladen werden");
+    const external=await res.json();
+    if(!Array.isArray(external.rules)||!Array.isArray(external.creator)) throw new Error("Ungültige JSON-Struktur");
+    data=external;
+  }catch(err){
+    console.warn(err);
+    data=defaults;
+  }
+  render();
+}
+
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function save(){localStorage.setItem("streamerSanctions",JSON.stringify(data));}
+function toggleEdit(){
+ editMode=!editMode;
+ const b=document.getElementById("editBtn"),s=document.getElementById("editState");
+ b.textContent=editMode?"✓ Bearbeiten beenden":"✎ Bearbeiten";
+ s.textContent=editMode?"Bearbeitungsmodus aktiv":"Nur Ansicht";
+ s.classList.toggle("on",editMode);render();
+}
+function badgeClass(x){
+ if(/ERLAUBT/i.test(x))return"green";
+ if(/NUR WARN|HIGH TEAM|MANAGEMENT|SONDERSTRAFE/i.test(x))return"pink";
+ return"";
+}
+function updateRule(i,field,value){data.rules[i][field]=value;save();}
+function renderCreator(){
+ document.getElementById("creatorGrid").innerHTML=data.creator.map((x,i)=>`
+ <div class="creator-item">
+  ${editMode?`
+   <div class="edit-field"><label>Stufe</label><input value="${esc(x.level)}" onchange="data.creator[${i}].level=this.value;save()"></div>
+   <div class="edit-field"><label>Bestrafung</label><input value="${esc(x.punishment)}" onchange="data.creator[${i}].punishment=this.value;save()"></div>
+  `:`<div class="level">${esc(x.level)}</div><div class="punishment">${esc(x.punishment)}</div>`}
+ </div>`).join("");
+}
+function render(){
+ renderCreator();
+ const q=document.getElementById("search").value.toLowerCase(),f=document.getElementById("filter").value;
+ const groups={};
+ data.rules.forEach((r,i)=>{
+  if((f==="Alle"||r[0]===f)&&(r.slice(1).join(" ").toLowerCase().includes(q)))
+   (groups[r[0]]??=[]).push([r,i]);
+ });
+ let out="";
+ Object.entries(groups).forEach(([cat,items])=>{
+  out+=`<section class="section"><div class="section-head"><span class="section-icon">✦</span><h2>${esc(cat)}</h2><span class="count">${items.length} Regeln</span></div><div class="grid">`;
+  items.forEach(([r,i])=>{
+   out+=`<article class="card ${editMode?"editing":""}">
+    <div class="number">${i+1}</div>
+    <div class="display-area">
+     <div class="title">${esc(r[1])}</div>
+     <div class="badges"><span class="badge ${badgeClass(r[2])}">${esc(r[2])}</span>${r[3]?`<span class="badge ${badgeClass(r[3])}">${esc(r[3])}</span>`:""}</div>
+     ${r[4]?`<div class="note">${esc(r[4])}</div>`:""}
+    </div>
+    <div class="edit-area">
+     <div class="edit-field"><label>Regelbruch</label><input value="${esc(r[1])}" onchange="updateRule(${i},1,this.value)"></div>
+     <div class="edit-field"><label>Sanktion</label><input value="${esc(r[2])}" onchange="updateRule(${i},2,this.value)"></div>
+     <div class="edit-field"><label>Badge / Zusatz</label><input value="${esc(r[3]||"")}" onchange="updateRule(${i},3,this.value)"></div>
+     <div class="edit-field"><label>Hinweis</label><input value="${esc(r[4]||"")}" onchange="updateRule(${i},4,this.value)"></div>
+     <button class="delete" onclick="deleteRule(${i})">🗑 Regel löschen</button>
+    </div>
+   </article>`;
+  });
+  out+="</div></section>";
+ });
+ document.getElementById("content").innerHTML=out||'<div class="empty">Keine Regeln gefunden.</div>';
+}
+function deleteRule(i){
+ if(confirm("Diese Regel wirklich löschen?")){data.rules.splice(i,1);save();render();}
+}
+function openAdd(){
+ ["mTitle","mPunish","mNote"].forEach(id=>document.getElementById(id).value="");
+ document.getElementById("modal").classList.add("show");
+}
+function closeModal(){document.getElementById("modal").classList.remove("show");}
+function saveModal(){
+ const title=document.getElementById("mTitle").value.trim(),punish=document.getElementById("mPunish").value.trim();
+ if(!title||!punish){alert("Bitte Regelbruch und Sanktion ausfüllen.");return;}
+ data.rules.push([document.getElementById("mCat").value,title,punish,document.getElementById("mNote").value.trim(),""]);
+ save();closeModal();render();
+}
+function exportData(){
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="streamer-sanktionen.json";a.click();
+ setTimeout(()=>URL.revokeObjectURL(a.href),500);
+}
+function importData(e){
+ const file=e.target.files[0];if(!file)return;
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const x=JSON.parse(reader.result);
+   if(!Array.isArray(x.rules)||!Array.isArray(x.creator))throw Error();
+   data=x;save();render();alert("Regelwerk erfolgreich importiert.");
+  }catch{alert("Ungültige Regelwerk-Datei.");}
+ };
+ reader.readAsText(file);e.target.value="";
+}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+loadData();
+</script>
+</body>
+</html>

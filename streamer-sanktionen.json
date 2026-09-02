@@ -1,0 +1,291 @@
+{
+  "creator": [
+    {
+      "level": "1. Gespräch führen",
+      "punishment": "Vergehen eintragen in Nachweise ( DC ) → Ticket eröffnen → Person hinzufügen → Gespräch führen"
+    },
+    {
+      "level": "2. Mündliche Verwarnung + Creator Warn",
+      "punishment": "Hinterlegung in SCP"
+    },
+    {
+      "level": "3. Entzug Lizenz",
+      "punishment": "Hinterlegung in SCP + Tx Admin"
+    }
+  ],
+  "rules": [
+    [
+      "IC-Verstöße",
+      "VDM / RDM",
+      "Creator Warn ( 2 - 4 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Trolling",
+      "Creator Warn ( 4 Wochen ) - Entzug Lizenz",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Fail-RP",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Power RP",
+      "Creator Warn ( 2 - 4 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "NonRP",
+      "Creator Warn ( 4 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Rassismus IC",
+      "Meldung an Leitung CreatorVerwaltung",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Sexismus IC",
+      "Meldung an Leitung CreatorVerwaltung",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Extrem permanente wiederholte Anmachsprüche",
+      "Meldung an Leitung CreatorVerwaltung",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Mit Support drohen",
+      "Meldung an Leitung Creatorverwaltung",
+      "Strafe nach Absprache"
+    ],
+    [
+      "IC-Verstöße",
+      "Während einer aktiven Situation den Support aufrufen",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "RP-Flucht",
+      "Creator Warn ( 4 Wochen )",
+      "",
+      "bei mehrfacher Wiederholung Entzug Lizenz"
+    ],
+    [
+      "IC-Verstöße",
+      "Combat Logging",
+      "Creator Warn ( 4 Wochen )",
+      "",
+      "bei mehrfacher Wiederholung Entzug Lizenz"
+    ],
+    [
+      "IC-Verstöße",
+      "New Life Regel nicht beachten",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Carry / TH im Auto beim Fahrer",
+      "mündliche Verwarnung - Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Voicechanger Abuse",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Korruption",
+      "Creator Warn ( 2 Wochen ) + Privat Lager clearen",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Drittpartei",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Gamboverhalten / Baiting",
+      "Creator Warn ( 4 Wochen ) - Entzug Lizenz",
+      "Strafe nach Absprache"
+    ],
+    [
+      "IC-Verstöße",
+      "Gamboutfit / RP ungetreues Outfit",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Leichenschändung",
+      "Creator Warn ( 4 Wochen ) - Entzug Lizenz",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Safezone missachten",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Fahrzeug Regeln missachtet",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Scams (Trading, Coins, Güter)",
+      "Meldung an Leitung CreatorVerwaltung",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Echtgeldhandel",
+      "Meldung an Leitung CreatorVerwaltung",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Fremdwerbung oder Abwerbung",
+      "Entzug Lizenz + Ban",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Bug Abusing / Duping",
+      "Creator Warn ( 2 - 4 Wochen ) - Ban",
+      "Absprache mit Leitung CreatorVerwaltung"
+    ],
+    [
+      "IC-Verstöße",
+      "Blacklisted Wörter",
+      "Creator Warn ( 4 Wochen ) - Entzug Lizenz",
+      ""
+    ],
+    [
+      "IC-Verstöße",
+      "Eigenbereicherung",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "OOC Talk",
+      "Creator Warn ( 2 Wochen )",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "OOC Beleidigung",
+      "Creator Warn ( 4 Wochen ) - Entzug Lizenz",
+      "Strafe nach Absprache"
+    ],
+    [
+      "OOC-Verstöße",
+      "Rassismus OOC",
+      "Meldung an Leitung CreatorVerwaltung",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "Sexismus OOC",
+      "Weiterleitung an Leitung CreatorVerwaltung",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "Diskriminierung von Behinderungen o.ä.",
+      "Weiterleitung an Leitung CreatorVerwaltung",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "Vermischung von IC und OOC Sachen",
+      "Creator Warn ( 2 - 4 Wochen )",
+      "Bei mehrfacher Wiederholung Entzug Lizenz"
+    ],
+    [
+      "OOC-Verstöße",
+      "Metagaming",
+      "Creator Warn ( 4 Wochen )",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "Lügen im Support",
+      "Creator Warn ( 4 Wochen )",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "Respektloses Verhalten bei Supporten",
+      "Entzug Lizenz + Weiterleitung an Leitung CreatorVerwaltung",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "Support Flucht",
+      "Ban 3 Tage",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "Streamen ohne Lizenz",
+      "Hinweisen → bei Wiederholung 3 Tage Ban",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "Missachtung Anordnung von CreatorVerwaltung",
+      "3 Tage Ban",
+      ""
+    ],
+    [
+      "PET-Verstöße",
+      "Unrealistisches RP (Fahren, Carry, ... als Tier)",
+      "Creator Warn ( 2 - 4 Wochen )",
+      ""
+    ],
+    [
+      "PET-Verstöße",
+      "Missbrauch des /rp oder /ooc Befehls",
+      "Creator Warn ( 2 - 4 Wochen )",
+      ""
+    ],
+    [
+      "PET-Verstöße",
+      "RDM als Tier",
+      "Creator Warn ( 2 - 4 Wochen )",
+      ""
+    ],
+    [
+      "Sonstiges",
+      "1 Monat Inaktivität ohne Abmelden",
+      "Entzug Lizenz",
+      ""
+    ],
+    [
+      "OOC-Verstöße",
+      "OOC Schlechtrede anderer",
+      "Creator Warn ( 4 Wochen ) - Entzug Lizenz",
+      "",
+      ""
+    ]
+  ]
+}
