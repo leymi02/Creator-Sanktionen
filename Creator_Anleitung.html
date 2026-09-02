@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Creator Verwaltung – Anleitungen</title>
+<style>
+:root{--bg:#0a0910;--panel:#15131d;--panel2:#1c1926;--line:#2b2638;--text:#eeeaf7;--muted:#aaa2b9;--accent:#c49aff;--accent2:#9d78d6}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 20% 0%,#211a2f 0,transparent 32%),var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif}
+.sidebar{position:fixed;left:0;top:0;width:260px;height:100vh;padding:28px 18px;background:rgba(12,10,17,.96);border-right:1px solid var(--line);z-index:5}
+.logo{font-size:22px;font-weight:800;margin:0 0 7px}.sub{color:var(--muted);font-size:12px;margin-bottom:25px}
+nav a{display:block;color:#cfc8da;text-decoration:none;padding:11px 12px;border-radius:10px;margin:4px 0;font-size:14px}
+nav a:hover,nav a.active{background:#211c2d;color:white}
+.nav-main{margin-bottom:8px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.nav-main a{background:#181522;color:var(--accent);font-weight:700}
+.main{margin-left:260px;max-width:1180px;padding:48px 42px 80px}
+.hero{padding:28px;border:1px solid var(--line);background:linear-gradient(135deg,#171321,#111019);border-radius:20px;margin-bottom:28px}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#241d31;color:var(--accent);font-size:12px;font-weight:700}
+h1{font-size:38px;margin:13px 0 8px}.hero p{color:var(--muted);max-width:800px;line-height:1.6}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;text-decoration:none;border:1px solid var(--line);color:var(--text);background:var(--panel2);cursor:pointer}
+.btn.primary{background:var(--accent);color:#140d1d;border-color:var(--accent);font-weight:700}
+.section{margin-top:38px;scroll-margin-top:25px}.section-head{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+.section-head span{font-size:12px;color:var(--accent);font-weight:800;background:#211a2c;padding:7px 9px;border-radius:8px}
+h2{margin:0;font-size:25px}h3{margin:0 0 11px;font-size:16px;color:#f6f1ff}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px;margin:10px 0}
+ul{margin:0;padding-left:20px;color:#d5cfdf;line-height:1.65}li{margin:4px 0}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:15px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px}
+th{background:#1c1825;color:var(--accent);position:sticky;top:0}td{color:#ddd7e6}tr:last-child td{border-bottom:0}
+.note{border-left:3px solid var(--accent);background:#171320;padding:14px 16px;border-radius:0 12px 12px 0;color:#d8d1e4;line-height:1.55}
+.search{width:100%;margin:20px 0;padding:12px 14px;background:#111019;border:1px solid var(--line);border-radius:10px;color:white;outline:none}
+.search:focus{border-color:var(--accent)}
+footer{color:#777080;text-align:center;margin-top:50px;font-size:12px}
+@media(max-width:800px){.sidebar{position:static;width:auto;height:auto;border-right:0;border-bottom:1px solid var(--line)}.main{margin-left:0;padding:25px 16px 60px}h1{font-size:30px}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">Creator Verwaltung</div>
+  <div class="sub">Anleitungen & Sanktionen</div>
+  <div class="nav-main">
+    <a href="index.html">⚖️ Sanktionen</a>
+    <a href="creator_anleitungen.html" class="active">📚 Anleitungen</a>
+  </div>
+  <nav>
+    <a href="#s01">01 · Rang Verfahren</a><a href="#s02">02 · Anleitung Bewerbungstickets</a><a href="#s03">03 · Handhabung TikTok Streamer</a><a href="#s04">04 · Streamer Eintragen im SCP / Hinterlegen</a><a href="#s05">05 · (Angehender) Streamer – Regelverstoß Abarbeitung</a><a href="#s06">06 · Sanktionen an Creator</a><a href="#s07">07 · Streamen ohne Lizenz – Vorgehen</a><a href="#s08">08 · Lizenzen Entzug</a>
+  </nav>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <span class="badge">CREATOR VERWALTUNG</span>
+    <h1>📚 Anleitungen</h1>
+    <p>Interne Übersicht für Rangverfahren, Bewerbungstickets, SCP-Eintragung, Regelverstöße, Sanktionen und Lizenzentzug.</p>
+    <div class="actions">
+      <a class="btn primary" href="index.html">⚖️ Zur aktuellen Sanktionen-Seite</a>
+      <button class="btn" onclick="window.print()">🖨️ Drucken</button>
+    </div>
+  </div>
+
+  <input id="search" class="search" placeholder="🔎 Anleitung durchsuchen..." oninput="filterCards()">
+
+  <section id="s01" class="section"><div class="section-head"><span>01</span><h2>Rang Verfahren</h2></div><div class="card"><h3>Ränge</h3><ul><li>Probe Streamer → Streamer → Content Creator → Creator +</li></ul></div><div class="card"><h3>Probe Streamer</h3><ul><li>+ Kann jeder werden mit Bewerbung</li><li>– keine Vorteile</li><li>Probezeit = 2 Wochen (Ausnahme = Inaktivität)</li></ul></div><div class="card"><h3>Probe Streamer → Streamer</h3><ul><li>+ Nach überstandener Probezeit = Streamer</li><li>+ Kleine Giveaways</li><li>+ Auf Anfrage Multicharsystem</li></ul></div><div class="card"><h3>Probe Streamer → Content Creator</h3><ul><li>+ Creator Code</li><li>+ Giveaways</li><li>+ VIP Gold (auf Anfrage)</li><li>+ Werbung im Main DC</li><li>Wird man ab 25 Zuschauer ODER ab 6 Monate dabei sein</li></ul></div><div class="card"><h3>Content Creator → Creator +</h3><ul><li>+ Creator Code</li><li>+ Freecam</li><li>+ IC LIVE Rolle</li><li>+ Ping &quot;LIVE NEWS&quot; Rolle im Main DC</li><li>+ auf Anfrage special Items</li><li>Wird man ab 75 Zuschauer</li></ul></div></section><section id="s02" class="section"><div class="section-head"><span>02</span><h2>Anleitung Bewerbungstickets</h2></div><div class="card"><h3>Step 1</h3><ul><li>Sind alle Punkte beantwortet?</li><li>Links von Twitch + Statistik vorhanden?</li></ul></div><div class="card"><h3>Step 2</h3><ul><li>TX Admin Akte überprüfen (2 Wochen straffrei = Pflicht)</li><li>Wenn clean dann gern als Probe Streamer annehmen</li></ul></div><div class="card"><h3>Step 3 – Ablehnung</h3><ul><li>Command: /creatorabgelehnt</li><li>Ticket umbenennen: 🔴done oder 🔴abgelehnt</li><li>In TX hinterlegen: Keine Streaminglizenz / Erneute Bewerbung ab xx.xx - Link</li></ul></div><div class="card"><h3>Step 3 – Annahme</h3><ul><li>Twitch Kanal in TX Admin Notiz hinterlegen mit Streamer Rang + im SCP</li><li>Command: /probestreamer</li></ul></div></section><section id="s03" class="section"><div class="section-head"><span>03</span><h2>Handhabung TikTok Streamer</h2></div><div class="card"><h3>VODs</h3><ul><li>TikTok Streamer informieren, dass VODs eingesehen werden müssen.</li><li>Da das auf TikTok nicht möglich ist:</li></ul></div><div class="card"><h3>Vorgehen</h3><ul><li>1. Parallel auf Twitch streamen</li><li>2. Nebenbei aufnehmen und hochladen (gern ungelistet)</li><li>3. Streams speichern und jeden Freitag bei Creator Verwaltung vorlegen</li><li>Bei Fragen o.ä. an (Sec) Head of CV melden.</li></ul></div></section><section id="s04" class="section"><div class="section-head"><span>04</span><h2>Streamer Eintragen im SCP / Hinterlegen</h2></div><div class="card"><h3>Kurzversion</h3><ul><li>SCP öffnen → &quot;Creator&quot; → &quot;Streamer hinzufügen&quot; → ausfüllen → &quot;Hinzufügen&quot;</li></ul></div><div class="card"><h3>Zu beachten</h3><ul><li>Name steht für IC Namen</li><li>Pflichtfelder: Name; Dc ID; Twitch-Link; Kategorie [Probe Streamer]</li></ul></div></section><section id="s05" class="section"><div class="section-head"><span>05</span><h2>(Angehender) Streamer – Regelverstoß Abarbeitung</h2></div><div class="card"><h3>1. Auswertung Beweise</h3><ul><li>Analyse – Was ist wirklich vorgefallen?</li><li>Selbsteinschätzung: Versehen oder Absicht</li><li>Entscheidungen anhand der vorhandenen Fakten und Beweise treffen.</li></ul></div><div class="card"><h3>2. Vergehen Hinterlegen</h3><ul><li>Jegliche Art von Regelverstößen in den Creator-Vergehen eintragen, mit Beweisen wenn vorhanden, und in TX History.</li></ul></div><div class="card"><h3>3. Bestrafung</h3><ul><li>Person soll bestraft werden? → Absprache mit Head of oder Sec. Head (Anweisung von Teamverwaltung)</li></ul></div><div class="card"><h3>4. Ticket</h3><ul><li>Nach Absprache/Absegnung: Support Ticket im CC DC eröffnen, beteiligte Person hinzufügen, zu Gespräch einladen</li></ul></div><div class="card"><h3>5. Wenn nach 24h keine Meldung</h3><ul><li>Person wird gebannt, wenn sie nicht on Stream ist; im Support mit @CV - @Supporter melden</li></ul></div><div class="card"><h3>6. Gespräch</h3><ul><li>Professionelles Auftreten, Fakten statt Emotionen</li><li>Alle wichtigen Infos in TX Admin sowie Creator Vergehen Channel hinterlegen</li></ul></div></section><section id="s06" class="section"><div class="section-head"><span>06</span><h2>Sanktionen an Creator</h2></div><div class="card"><h3>Vorgehen</h3><ul><li>1. Vor Bann Ticket eröffnen, Person hinzufügen, Gespräch einladen; keine Rückmeldung bis nächsten Tag → Bann in TX + einmal im Support mit @CreatorVerwaltung</li><li>2. Bann als Sanktion nur nach Rücksprache Head of / Sec. Head</li><li>3. Sanktionen (Warn, Bann – jeglicher Art) im Creator-Vergehen-Channel + TX Admin + RetroPanel (Creator) hinterlegen</li><li>Verwarnungen ebenfalls Head of / Sec. Head besprechen / Bescheid wissen</li></ul></div><div class="card"><h3>Wie gehe ich voran?</h3><ul><li>1. Vergehen hinterlegen</li><li>2. Absprache bzgl. mögliche Sanktionen</li><li>3. Gespräch führen; niedrigere Strafe kann im Gespräch im Ermessen liegen</li><li>PS: Jeglichen Support bzgl. Creator im SCP als Support eintragen</li></ul></div></section><section id="s07" class="section"><div class="section-head"><span>07</span><h2>Streamen ohne Lizenz – Vorgehen</h2></div><div class="card"><h3>Ablauf</h3><ul><li>Ticket eröffnen → Person Gespräch führen, dass Lizenz beantragt werden muss</li><li>1. Missachtung: 3 Tage Bann</li><li>2. Missachtung: 1 Woche Bann</li></ul></div></section><section id="s08" class="section"><div class="section-head"><span>08</span><h2>Lizenzen Entzug</h2></div><div class="card"><h3>Inaktivität – Probe Streamer</h3><ul><li>Nach Annahme 2 Wochen nicht streamen → Rolle entzogen</li><li>TX: Keine Streaminglizenz ( Twitch Link )</li><li>SCP Notizen: Entzug Streaminglizenz Inaktivität</li></ul></div><div class="card"><h3>Inaktivität – alle anderen Streamer</h3><ul><li>4 Wochen NICHT gestreamt → Rolle entzogen</li><li>TX/SCP mit den entsprechenden Notizen hinterlegen</li></ul></div><div class="card"><h3>Regelverstöße</h3><ul><li>Bei Lizenzentzug wegen Regelverstößen etc. ebenfalls in TX Admin und SCP hinterlegen.</li></ul></div><div class="card"><h3>Wichtig</h3><ul><li>Eine Streaminglizenz kann sich jederzeit wieder eingeholt werden unter der Bedingung, dass diese aufgrund Inaktivität entzogen wurden ist.</li><li>Zusatz aus der aktuellen Sanktionen-Seite: 1 Monat Inaktivität ohne Abmelden → Entzug Lizenz.</li></ul></div></section>
+
+  <section class="section" id="s09">
+    <div class="section-head"><span>09</span><h2>⚖️ Aktuelle Sanktionen</h2></div>
+    <div class="note">Diese Tabelle basiert direkt auf deiner aktuell hochgeladenen <code>streamer-sanktionen.json</code>. Die vollständige Sanktionen-Seite öffnest du oben über „Sanktionen“.</div>
+    <div class="table-wrap" style="margin-top:14px">
+      <table id="sanctions">
+        <thead><tr><th>Kategorie</th><th>Vergehen</th><th>Sanktion</th><th>Hinweis</th></tr></thead>
+        <tbody><tr><td>IC-Verstöße</td><td>VDM / RDM</td><td>Creator Warn ( 2 - 4 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Trolling</td><td>Creator Warn ( 4 Wochen ) - Entzug Lizenz</td><td></td></tr><tr><td>IC-Verstöße</td><td>Fail-RP</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Power RP</td><td>Creator Warn ( 2 - 4 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>NonRP</td><td>Creator Warn ( 4 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Rassismus IC</td><td>Meldung an Leitung CreatorVerwaltung</td><td></td></tr><tr><td>IC-Verstöße</td><td>Sexismus IC</td><td>Meldung an Leitung CreatorVerwaltung</td><td></td></tr><tr><td>IC-Verstöße</td><td>Extrem permanente wiederholte Anmachsprüche</td><td>Meldung an Leitung CreatorVerwaltung</td><td></td></tr><tr><td>IC-Verstöße</td><td>Mit Support drohen</td><td>Meldung an Leitung Creatorverwaltung</td><td>Strafe nach Absprache</td></tr><tr><td>IC-Verstöße</td><td>Während einer aktiven Situation den Support aufrufen</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>RP-Flucht</td><td>Creator Warn ( 4 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Combat Logging</td><td>Creator Warn ( 4 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>New Life Regel nicht beachten</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Carry / TH im Auto beim Fahrer</td><td>mündliche Verwarnung - Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Voicechanger Abuse</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Korruption</td><td>Creator Warn ( 2 Wochen ) + Privat Lager clearen</td><td></td></tr><tr><td>IC-Verstöße</td><td>Drittpartei</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Gamboverhalten / Baiting</td><td>Creator Warn ( 4 Wochen ) - Entzug Lizenz</td><td>Strafe nach Absprache</td></tr><tr><td>IC-Verstöße</td><td>Gamboutfit / RP ungetreues Outfit</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Leichenschändung</td><td>Creator Warn ( 4 Wochen ) - Entzug Lizenz</td><td></td></tr><tr><td>IC-Verstöße</td><td>Safezone missachten</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Fahrzeug Regeln missachtet</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>IC-Verstöße</td><td>Scams (Trading, Coins, Güter)</td><td>Meldung an Leitung CreatorVerwaltung</td><td></td></tr><tr><td>IC-Verstöße</td><td>Echtgeldhandel</td><td>Meldung an Leitung CreatorVerwaltung</td><td></td></tr><tr><td>IC-Verstöße</td><td>Fremdwerbung oder Abwerbung</td><td>Entzug Lizenz + Ban</td><td></td></tr><tr><td>IC-Verstöße</td><td>Bug Abusing / Duping</td><td>Creator Warn ( 2 - 4 Wochen ) - Ban</td><td>Absprache mit Leitung CreatorVerwaltung</td></tr><tr><td>IC-Verstöße</td><td>Blacklisted Wörter</td><td>Creator Warn ( 4 Wochen ) - Entzug Lizenz</td><td></td></tr><tr><td>IC-Verstöße</td><td>Eigenbereicherung</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>OOC-Verstöße</td><td>OOC Talk</td><td>Creator Warn ( 2 Wochen )</td><td></td></tr><tr><td>OOC-Verstöße</td><td>OOC Beleidigung</td><td>Creator Warn ( 4 Wochen ) - Entzug Lizenz</td><td>Strafe nach Absprache</td></tr><tr><td>OOC-Verstöße</td><td>Rassismus OOC</td><td>Meldung an Leitung CreatorVerwaltung</td><td></td></tr><tr><td>OOC-Verstöße</td><td>Sexismus OOC</td><td>Weiterleitung an Leitung CreatorVerwaltung</td><td></td></tr><tr><td>OOC-Verstöße</td><td>Diskriminierung von Behinderungen o.ä.</td><td>Weiterleitung an Leitung CreatorVerwaltung</td><td></td></tr><tr><td>OOC-Verstöße</td><td>Vermischung von IC und OOC Sachen</td><td>Creator Warn ( 2 - 4 Wochen )</td><td>Bei mehrfacher Wiederholung Entzug Lizenz</td></tr><tr><td>OOC-Verstöße</td><td>Metagaming</td><td>Creator Warn ( 4 Wochen )</td><td></td></tr><tr><td>OOC-Verstöße</td><td>Lügen im Support</td><td>Creator Warn ( 4 Wochen )</td><td></td></tr><tr><td>OOC-Verstöße</td><td>Respektloses Verhalten bei Supporten</td><td>Entzug Lizenz + Weiterleitung an Leitung CreatorVerwaltung</td><td></td></tr><tr><td>OOC-Verstöße</td><td>Support Flucht</td><td>Ban 3 Tage</td><td></td></tr><tr><td>OOC-Verstöße</td><td>Streamen ohne Lizenz</td><td>Hinweisen → bei Wiederholung 3 Tage Ban</td><td></td></tr><tr><td>OOC-Verstöße</td><td>Missachtung Anordnung von CreatorVerwaltung</td><td>3 Tage Ban</td><td></td></tr><tr><td>PET-Verstöße</td><td>Unrealistisches RP (Fahren, Carry, ... als Tier)</td><td>Creator Warn ( 2 - 4 Wochen )</td><td></td></tr><tr><td>PET-Verstöße</td><td>Missbrauch des /rp oder /ooc Befehls</td><td>Creator Warn ( 2 - 4 Wochen )</td><td></td></tr><tr><td>PET-Verstöße</td><td>RDM als Tier</td><td>Creator Warn ( 2 - 4 Wochen )</td><td></td></tr><tr><td>Sonstiges</td><td>1 Monat Inaktivität ohne Abmelden</td><td>Entzug Lizenz</td><td></td></tr><tr><td>OOC-Verstöße</td><td>OOC Schlechtrede anderer</td><td>Creator Warn ( 4 Wochen ) - Entzug Lizenz</td><td></td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span>10</span><h2>Creator-Stufen bei Sanktionen</h2></div>
+    <div class="table-wrap">
+      <table><thead><tr><th>Stufe</th><th>Vorgehen</th></tr></thead><tbody><tr><td>1. Gespräch führen</td><td>Vergehen eintragen in Nachweise ( DC ) → Ticket eröffnen → Person hinzufügen → Gespräch führen</td></tr><tr><td>2. Mündliche Verwarnung + Creator Warn</td><td>Hinterlegung in SCP</td></tr><tr><td>3. Entzug Lizenz</td><td>Hinterlegung in SCP + Tx Admin</td></tr></tbody></table>
+    </div>
+  </section>
+
+  <footer>Creator Verwaltung · Anleitungen</footer>
+</main>
+
+<script>
+function filterCards(){
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  document.querySelectorAll('.section').forEach(s=>{
+    if(s.id==='s09') return;
+    s.style.display = !q || s.innerText.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
