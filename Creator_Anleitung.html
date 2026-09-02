@@ -34,6 +34,58 @@ th{background:#1c1825;color:var(--accent);position:sticky;top:0}td{color:#ddd7e6
 footer{color:#777080;text-align:center;margin-top:50px;font-size:12px}
 @media(max-width:800px){.sidebar{position:static;width:auto;height:auto;border-right:0;border-bottom:1px solid var(--line)}.main{margin-left:0;padding:25px 16px 60px}h1{font-size:30px}}
 </style>
+
+<style id="siteCustomizerStyles">
+#customizeBtn{
+  position:fixed; right:18px; bottom:18px; z-index:9998;
+  border:1px solid rgba(200,166,255,.35); background:#171b24; color:#f4f5f7;
+  border-radius:12px; padding:10px 14px; font:600 13px 'DM Sans',Arial,sans-serif;
+  cursor:pointer; box-shadow:0 8px 30px rgba(0,0,0,.28)
+}
+#customizePanel{
+  position:fixed; inset:0; z-index:9999; display:none;
+  background:rgba(4,6,10,.72); backdrop-filter:blur(5px);
+  align-items:center; justify-content:center; padding:18px;
+}
+#customizePanel.open{display:flex}
+.customizer-box{
+  width:min(720px,96vw); max-height:88vh; overflow:auto;
+  background:#11151d; color:#f4f5f7; border:1px solid #2a3240; border-radius:18px;
+  box-shadow:0 24px 80px rgba(0,0,0,.45); padding:22px;
+  font-family:'DM Sans',Arial,sans-serif
+}
+.customizer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.customizer-head h2{margin:0;font-size:20px}
+.customizer-close{border:1px solid #313948;background:#191e28;color:#fff;border-radius:10px;padding:8px 11px;cursor:pointer}
+.customizer-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.customizer-grid label{display:block;font-size:12px;color:#aab2c0}
+.customizer-grid input,.customizer-grid textarea{
+  width:100%; margin-top:6px; border:1px solid #303847; background:#0c1016; color:#fff;
+  border-radius:10px; padding:10px 11px; font:inherit
+}
+.customizer-grid textarea{min-height:78px;resize:vertical}
+.customizer-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.customizer-actions button,.customizer-actions label{
+  border:1px solid #303847;background:#191e28;color:#fff;border-radius:10px;padding:10px 12px;
+  cursor:pointer;font:600 12px 'DM Sans',Arial,sans-serif
+}
+.customizer-actions .primary{background:linear-gradient(135deg,#8e6bd8,#6f4fc2);border-color:#8e6bd8}
+.customizer-note{margin-top:14px;color:#8f98a8;font-size:11px;line-height:1.5}
+@media(max-width:650px){.customizer-grid{grid-template-columns:1fr}}
+</style>
+
+
+<style id="instructionsEditStyles">
+#instructionEditBar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 20px}
+#instructionEditBar button{
+  border:1px solid var(--border,#2a3240);background:var(--surface,#151922);color:var(--text,#f4f5f7);
+  border-radius:10px;padding:9px 12px;cursor:pointer;font-weight:600
+}
+body.instructions-editing main [data-editable="true"]{
+  outline:1px dashed var(--accent,#c8a6ff);outline-offset:4px;border-radius:4px
+}
+</style>
+
 </head>
 <body>
 <aside class="sidebar">
@@ -93,5 +145,31 @@ function filterCards(){
   });
 }
 </script>
+
+<script id="instructionsEditScript">
+let instructionEditing=false;
+function editableNodes(){return [...document.querySelectorAll("main h1, main h2, main h3, main p, main li")].filter(x=>!x.closest("#instructionEditBar"))}
+function initInstructionEdits(){
+  editableNodes().forEach((el,i)=>{
+    el.dataset.editable="true"; el.dataset.editKey="instruction_"+i;
+    const saved=localStorage.getItem(el.dataset.editKey); if(saved!==null)el.innerHTML=saved;
+  });
+}
+function toggleInstructionEdit(){
+  instructionEditing=!instructionEditing;
+  document.body.classList.toggle("instructions-editing",instructionEditing);
+  editableNodes().forEach(el=>el.contentEditable=instructionEditing?"true":"false");
+}
+function saveInstructionEdits(){
+  editableNodes().forEach(el=>localStorage.setItem(el.dataset.editKey,el.innerHTML));
+  alert("Texte wurden in diesem Browser gespeichert.");
+}
+function resetInstructionEdits(){
+  editableNodes().forEach(el=>localStorage.removeItem(el.dataset.editKey));
+  location.reload();
+}
+document.addEventListener("DOMContentLoaded",initInstructionEdits);
+</script>
+
 </body>
 </html>
