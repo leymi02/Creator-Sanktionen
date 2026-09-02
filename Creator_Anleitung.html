@@ -158,6 +158,75 @@ body.instructions-editing main [data-editable="true"]{
 }
 </style>
 
+
+<style id="instructionEditBarTopRight">
+.instruction-admin-toolbar{
+  position:fixed !important;
+  top:18px;
+  right:18px;
+  z-index:10030;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:8px;
+  border:1px solid var(--border,#2a3240);
+  background:rgba(14,16,24,.94);
+  backdrop-filter:blur(12px);
+  border-radius:12px;
+  box-shadow:0 12px 34px rgba(0,0,0,.32);
+}
+.instruction-admin-toolbar .status{
+  display:inline-flex;
+  align-items:center;
+  min-height:36px;
+  padding:0 11px;
+  border-radius:9px;
+  border:1px solid #303847;
+  background:#0c1016;
+  color:#9ca4b3;
+  font-size:12px;
+  font-weight:700;
+}
+.instruction-admin-toolbar .status.on{
+  color:#c8a6ff;
+  border-color:rgba(200,166,255,.42);
+}
+.instruction-admin-toolbar button{
+  min-height:36px;
+  border:1px solid #303847;
+  background:#191e28;
+  color:#fff;
+  border-radius:9px;
+  padding:0 12px;
+  cursor:pointer;
+  font-weight:700;
+}
+.instruction-admin-toolbar button.primary{
+  background:linear-gradient(135deg,#a977f0,#8357d9);
+  border-color:#a977f0;
+}
+#instructionSaveBtn{display:none}
+body.instructions-editing #instructionSaveBtn{display:inline-flex}
+body.instructions-editing main [data-editable="true"]{
+  outline:1px dashed rgba(200,166,255,.65);
+  outline-offset:4px;
+  border-radius:5px;
+  background:rgba(200,166,255,.04);
+}
+body:not(.is-admin) .instruction-admin-toolbar{display:none !important}
+@media(max-width:900px){
+  .instruction-admin-toolbar{
+    position:sticky !important;
+    top:8px;
+    right:auto;
+    margin:0 0 16px;
+    width:max-content;
+    max-width:100%;
+  }
+}
+</style>
+
 </head>
 <body>
 <aside class="sidebar">
@@ -174,13 +243,12 @@ body.instructions-editing main [data-editable="true"]{
 
 <main class="main">
 
-<div id="instructionEditBar">
+<div id="instructionEditBar" class="instruction-admin-toolbar">
   <span class="status" id="instructionEditState">Nur Ansicht</span>
   <button id="instructionEditBtn" type="button" onclick="toggleInstructionEdit()">✎ Bearbeiten</button>
   <button id="instructionSaveBtn" class="primary" type="button" onclick="saveInstructionEdits()">💾 Für alle speichern</button>
 </div>
-
-  <div class="hero">
+<div class="hero">
     <span class="badge">CREATOR VERWALTUNG</span>
     <h1>📚 Anleitungen</h1>
     <p>Interne Übersicht für Rangverfahren, Bewerbungstickets, SCP-Eintragung, Regelverstöße, Sanktionen und Lizenzentzug.</p>
@@ -226,31 +294,46 @@ async function initInstructionEdits(){
       editableNodes().forEach((el,i)=>{if(typeof items[i]==="string")el.innerHTML=items[i]});
       setCloudStatus("Anleitungen aus Cloud geladen","ok");
     }else{
-      setCloudStatus("Ausgangstexte geladen","ok");
+      setCloudStatus("Anleitungen geladen","ok");
     }
-  }catch(err){console.error(err);setCloudStatus("Cloud nicht erreichbar · Ausgangstexte","err")}
+  }catch(err){console.error(err);setCloudStatus("Cloud nicht erreichbar · Anleitungen","err")}
 }
-function toggleInstructionEdit(){
+async function toggleInstructionEdit(){
   if(!currentAdminUser){openAdminLogin();return;}
-  instructionEditing=!instructionEditing;
+
+  if(instructionEditing){
+    await saveInstructionEdits(false);
+    instructionEditing=false;
+  }else{
+    instructionEditing=true;
+  }
+
   document.body.classList.toggle("instructions-editing",instructionEditing);
   editableNodes().forEach(el=>el.contentEditable=instructionEditing?"true":"false");
+
   const btn=document.getElementById("instructionEditBtn");
   const state=document.getElementById("instructionEditState");
   if(btn)btn.textContent=instructionEditing?"✓ Bearbeiten beenden":"✎ Bearbeiten";
   if(state){
-    state.textContent=instructionEditing?"Bearbeitungsmodus aktiv":"Nur Ansicht";
+    state.textContent=instructionEditing?"Bearbeitungsmodus aktiv":"Gespeichert ✓";
     state.classList.toggle("on",instructionEditing);
   }
 }
-async function saveInstructionEdits(){
-  if(!currentAdminUser){openAdminLogin();return;}
+async function saveInstructionEdits(showMessage=true){
+  if(!currentAdminUser){openAdminLogin();return false;}
   try{
     await saveContent("instructions",{items:editableNodes().map(el=>el.innerHTML)});
     setCloudStatus("Anleitungen für alle gespeichert ✓","ok");
-    const state=document.getElementById("instructionEditState"); if(state)state.textContent="Gespeichert ✓";
-    alert("Anleitungen wurden für alle Besucher gespeichert.");
-  }catch(err){console.error(err);setCloudStatus("Speichern fehlgeschlagen","err");alert("Speichern fehlgeschlagen.");}
+    const state=document.getElementById("instructionEditState");
+    if(state)state.textContent="Gespeichert ✓";
+    if(showMessage)alert("Gespeichert – die Änderungen sind jetzt für alle Besucher sichtbar.");
+    return true;
+  }catch(err){
+    console.error(err);
+    setCloudStatus("Speichern fehlgeschlagen","err");
+    alert("Speichern fehlgeschlagen.");
+    return false;
+  }
 }
 async function resetInstructionEdits(){
   if(!currentAdminUser){openAdminLogin();return;}
